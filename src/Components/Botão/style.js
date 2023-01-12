@@ -8,7 +8,7 @@ export const BotãoEstilo = styled.button`
 
     &:hover {
         cursor: pointer;
-        background-color: rgba(255, 165, 0, 1);
+        background-color: rgba(250, 125, 255, 0.3);
     }
 
     &:active {

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import logo from './img/logo.svg'
-import { Body, Cabeçalho, Rodape, Sidebar, Imagem, Principal, LinhaMensagem, SeçãoMensagens, SeçãoInputs, Mensagem } from "./style";
+import logo from './img/logo.png'
+import { Body, Cabeçalho, Rodape, Sidebar, Imagem, Principal, LinhaMensagem, SeçãoMensagens, SeçãoInputs, Mensagem, GlobalStyle, InserirRemetente } from "./style";
 import Botão from "./Components/Botão/Botão";
 import InputMensagem from "./Components/InputMensagens/InputMensagens";
 
@@ -9,25 +9,44 @@ function App() {
   const [remetente, setRemetente] = useState("")
   const [mensagem, setMensagem] = useState("")
   const [listaMensagens, setlistaMensagens] = useState([])
+  const [remetenteNome, setRemetenteNome] = useState("")
+  const [nomeFornecido, setNomeFornecido] = useState(false)
 
   const historico = listaMensagens.map((valor, index) => {
-    if (valor.rmt === "eu") {
+    if (valor.rmt === remetenteNome) {
       return (
       <li>
       <LinhaMensagem lado="flex-end" displayR="none" onDoubleClick={() => deletarMensagem(index)}>
-      <Mensagem corFundo="#FFA500" key={index}><p>{valor.rmt}</p> <p>{valor.msg}</p></Mensagem>
+      <Mensagem corFundo="#FDDDFF" key={index}><p>{valor.rmt}</p> <p>{valor.msg}</p></Mensagem>
       </LinhaMensagem>
       </li>
       )} else {
         return (
         <li>
         <LinhaMensagem lado="flex-start" displayR="inherit" onDoubleClick={() => deletarMensagem(index)}>
-        <Mensagem corFundo="#fcd690" key={index}><p>{valor.rmt}</p> <p>{valor.msg}</p></Mensagem>
+        <Mensagem corFundo="#D7A5FF" key={index}><p>{valor.rmt}</p> <p>{valor.msg}</p></Mensagem>
         </LinhaMensagem>
         </li>
         )
       }
   })
+
+  const handleInputNomeRemetente = (e) => {
+    setRemetenteNome(e.target.value)
+  }
+
+  const checkNome = () => {
+    if (remetenteNome === "") {
+      window.alert("Forneça um nome para continuar.")
+    } else {
+      setNomeFornecido(true)
+    }
+  }
+
+  const onClickRemetenteNome = (e) => {
+    console.log(nomeFornecido)
+    checkNome()
+  }
 
   const handleInputRemetente = (e) => {
     setRemetente(e.target.value)
@@ -51,10 +70,21 @@ function App() {
   }
 
   return (
+    <>
+    <GlobalStyle/>
     <Body>
       <Cabeçalho><Imagem src={logo}/><h1>WhatsLab</h1></Cabeçalho>
       <Principal>
         <Sidebar/>
+        {!nomeFornecido && 
+        <InserirRemetente>
+          <form>
+          <label>Insira seu nome.</label>
+          <input value={remetenteNome} onChange={handleInputNomeRemetente}/> 
+          <button type="submit" onClick={onClickRemetenteNome}>Ok</button>
+          </form>
+        </InserirRemetente>}
+        {nomeFornecido &&
         <SeçãoMensagens>
             <ul>{historico}</ul>
             <SeçãoInputs onSubmit={handleSubmit}>
@@ -75,10 +105,12 @@ function App() {
                 ></Botão>
             </SeçãoInputs>
         </SeçãoMensagens>
+        }
         <Sidebar/>
       </Principal>
       <Rodape><span>Copyright ® 2022 Labenu All rights reserved R. Pais Leme, 215, Conjunto 820 Pinheiros. CEP 05424-150</span></Rodape>
     </Body>
+    </>
   );
 }
 
