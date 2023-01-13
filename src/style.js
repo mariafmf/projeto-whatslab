@@ -25,7 +25,7 @@ export const Cabeçalho = styled.header`
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 11%;
+    height: 10%;
     color: var(--dark-purple);
     text-shadow: 1px 1px var(--light-purple);
     font-family: 'Playfair Display', serif;
@@ -39,7 +39,7 @@ export const Imagem = styled.img`
 
 export const Principal = styled.main`
     display: grid;
-    grid-template-columns: 1fr 3fr 1fr;
+    grid-template-columns: 1fr 2fr 1fr;
     height: 85%;
 `
 
@@ -55,7 +55,7 @@ export const Rodape = styled.footer`
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 4%;
+    height: 5%;
 `
 
 export const InserirRemetente = styled.div`
@@ -98,30 +98,32 @@ export const InserirRemetente = styled.div`
                 transform: scale(0.98)
             }
         }
-
     }`
 
 export const SeçãoMensagens = styled.div`
     display: grid;
     grid-template-rows: 90% 10%;
-    overflow-y: auto;
+    overflow-y: hidden;
 
-    ul {
-        list-style: none;
+    div {
         display: flex;
         flex-direction: column;
-        justify-content: flex-end;
-    }
 
+        ul {
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            list-style: none;
+            overflow-y: scroll;
+        }
+    }
 `
 
-export const LinhaMensagem = styled.div`
+export const LinhaMensagem = styled.li`
     display: flex;
     flex-wrap: wrap;
     justify-content: ${(props)=>props.lado};
-    align-items: flex-end;
-    margin: 5px;
-    margin-right: 50px;
+    margin: 5px 17px;   
 
     p {
         margin: 0;
@@ -138,7 +140,6 @@ export const Mensagem = styled.div `
     background-color: ${(props)=>props.corFundo};
     border-radius: 5px;
     display: flex;
-    flex-direction: column;
     max-width: 50vw;
     text-align: left;
     box-shadow: 1px 1px rgba(1, 1, 1, 0.2);

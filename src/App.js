@@ -12,21 +12,17 @@ function App() {
   const [remetenteNome, setRemetenteNome] = useState("")
   const [nomeFornecido, setNomeFornecido] = useState(false)
 
-  const historico = listaMensagens.map((valor, index) => {
+const historico = listaMensagens.map((valor, index) => {
     if (valor.rmt === remetenteNome) {
       return (
-      <li>
       <LinhaMensagem lado="flex-end" displayR="none" onDoubleClick={() => deletarMensagem(index)}>
       <Mensagem corFundo="#FDDDFF" key={index}><p>{valor.rmt}</p> <p>{valor.msg}</p></Mensagem>
       </LinhaMensagem>
-      </li>
       )} else {
         return (
-        <li>
         <LinhaMensagem lado="flex-start" displayR="inherit" onDoubleClick={() => deletarMensagem(index)}>
         <Mensagem corFundo="#D7A5FF" key={index}><p>{valor.rmt}</p> <p>{valor.msg}</p></Mensagem>
         </LinhaMensagem>
-        </li>
         )
       }
   })
@@ -53,15 +49,26 @@ function App() {
   }
 
   const handleInputMensagem = (e) => {
+    checkRemetente()
     setMensagem(e.target.value)
+  }
+
+  const checkRemetente = () => {
+    if(remetente === "") {
+      setRemetente(remetenteNome)
+    }
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const novasMensagens = [...listaMensagens, {rmt: remetente, msg: mensagem}]
-    setlistaMensagens(novasMensagens)
-    setRemetente("")
-    setMensagem("")
+    if(mensagem === "") {
+      window.alert("Não é possível enviar mensagens em branco.")
+    } else {
+      const novasMensagens = [...listaMensagens, {rmt: remetente, msg: mensagem}]
+      setlistaMensagens(novasMensagens)
+      setRemetente("")
+      setMensagem("")
+    }
   }
 
   const deletarMensagem = (indexR) => {
@@ -85,30 +92,30 @@ function App() {
           </form>
         </InserirRemetente>}
         {nomeFornecido &&
-        <SeçãoMensagens>
-            <ul>{historico}</ul>
-            <SeçãoInputs onSubmit={handleSubmit}>
-                <InputMensagem 
-                    nomeInput="Remetente" 
-                    textoInput={remetente} 
-                    onChangeInput={handleInputRemetente} 
-                    largura="180px"
-                />
-                 <InputMensagem 
-                    nomeInput="Mensagem" 
-                    textoInput={mensagem} 
-                    onChangeInput={handleInputMensagem} 
-                    largura="370px"
-                />
-                <Botão 
-                    type="submit"
-                ></Botão>
-            </SeçãoInputs>
-        </SeçãoMensagens>
+          <SeçãoMensagens>
+              <div><ul>{historico}</ul></div>
+          <SeçãoInputs onSubmit={handleSubmit}>
+              <InputMensagem 
+                  nomeInput="Remetente" 
+                  textoInput={remetente} 
+                  onChangeInput={handleInputRemetente} 
+                  largura="180px"
+              />
+                <InputMensagem
+                  nomeInput="Mensagem" 
+                  textoInput={mensagem} 
+                  onChangeInput={handleInputMensagem} 
+                  largura="370px"
+              />
+              <Botão 
+                  type="submit"
+              ></Botão>
+          </SeçãoInputs>
+          </SeçãoMensagens>
         }
         <Sidebar/>
       </Principal>
-      <Rodape><span>Copyright ® 2022 Labenu All rights reserved R. Pais Leme, 215, Conjunto 820 Pinheiros. CEP 05424-150</span></Rodape>
+      <Rodape><span>WhatsLab || 2022-2023</span></Rodape>
     </Body>
     </>
   );
